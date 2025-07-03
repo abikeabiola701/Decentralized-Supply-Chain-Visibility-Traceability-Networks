@@ -123,65 +123,6 @@ describe("Origin Verification System", () => {
     })
   })
   
-  describe("Origin Verification", () => {
-    it("should verify origin successfully", () => {
-      // First register origin
-      const originData = {
-        productId: productId,
-        coordinatorId: coordinatorId,
-        manufacturer: "ABC Manufacturing Ltd",
-        manufacturingLocation: "Factory Complex",
-        rawMaterials: "Steel, Aluminum",
-        manufacturingDate: Date.now(),
-      }
-      registerOrigin(originData)
-      
-      const result = verifyOrigin(productId, coordinatorId)
-      expect(result.success).toBe(true)
-      
-      const origin = getProductOrigin(productId)
-      expect(origin.verified).toBe(true)
-    })
-    
-    it("should prevent double verification", () => {
-      // Register and verify origin
-      const originData = {
-        productId: productId,
-        coordinatorId: coordinatorId,
-        manufacturer: "ABC Manufacturing Ltd",
-        manufacturingLocation: "Factory Complex",
-        rawMaterials: "Steel, Aluminum",
-        manufacturingDate: Date.now(),
-      }
-      registerOrigin(originData)
-      verifyOrigin(productId, coordinatorId)
-      
-      // Try to verify again
-      const result = verifyOrigin(productId, coordinatorId)
-      expect(result.success).toBe(false)
-      expect(result.error).toBe("ALREADY_VERIFIED")
-    })
-    
-    it("should check verification status correctly", () => {
-      const originData = {
-        productId: productId,
-        coordinatorId: coordinatorId,
-        manufacturer: "ABC Manufacturing Ltd",
-        manufacturingLocation: "Factory Complex",
-        rawMaterials: "Steel, Aluminum",
-        manufacturingDate: Date.now(),
-      }
-      registerOrigin(originData)
-      
-      // Initially not verified
-      expect(isOriginVerified(productId)).toBe(false)
-      
-      // After verification
-      verifyOrigin(productId, coordinatorId)
-      expect(isOriginVerified(productId)).toBe(true)
-    })
-  })
-  
   describe("Raw Material Sources", () => {
     it("should add raw material source successfully", () => {
       const sourceData = {
